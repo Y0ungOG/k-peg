@@ -1,0 +1,52 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "WHmPLRyZVGW-"
+      },
+      "outputs": [],
+      "source": [
+        "from sklearn.svm import SVR\n",
+        "\n",
+        "\n",
+        "np.random.seed(0)\n",
+        "dividends = np.random.rand(100) * 10  # Dividends between 0 and 10\n",
+        "stock_prices = dividends ** 2 + np.random.normal(0, 10, size=dividends.shape)  # Non-linear relationship with noise\n",
+        "\n",
+        "\n",
+        "svr_rbf = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)\n",
+        "svr_rbf.fit(dividends.reshape(-1, 1), stock_prices)\n",
+        "\n",
+        "\n",
+        "dividends_range = np.linspace(dividends.min(), dividends.max(), 100).reshape(-1, 1)\n",
+        "predicted_stock_prices = svr_rbf.predict(dividends_range)\n",
+        "\n",
+        "\n",
+        "plt.scatter(dividends, stock_prices, label='Synthetic Data', color='blue', alpha=0.5)\n",
+        "plt.plot(dividends_range, predicted_stock_prices, label='SVR Model Fit', color='red')\n",
+        "plt.title('Stock Price as a Function of Dividends using SVR')\n",
+        "plt.xlabel('Dividends')\n",
+        "plt.ylabel('Stock Prices')\n",
+        "plt.legend()\n",
+        "plt.grid(True)\n",
+        "plt.show()"
+      ]
+    }
+  ]
+}
